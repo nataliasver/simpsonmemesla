@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const { getAllMemes } = require("./memes.controller")
+const { getAllMemes, uploadMemes } = require("./memes.controller")
 const multer  = require('multer')
 
 const storage = multer.diskStorage({
@@ -15,11 +15,6 @@ const upload = multer({ storage: storage })
 
 router.get("/memes", getAllMemes)
 
-router.post("/upload/meme", upload.single('file'), uploadFiles);
-
-function uploadFiles(req, res) {
-    console.log(req.body);
-    console.log(req.file);
-}
+router.post("/upload/meme", upload.single('file'), uploadMemes);
 
 module.exports = router

@@ -5,13 +5,13 @@ const Promise = require("bluebird")
 class MemesService {
 
     create(meme) {
-        return this.countAllMemesSeasonEpisode(meme.season, meme.episode)
+        return Promise.resolve(this.countAllMemesSeasonEpisode(meme.season, meme.episode))
             .then(countMemes => this._getNewMemeId(meme, countMemes))
             .tap(newMemeId => meme.meme_id = newMemeId)
             .then(() => Memes.create(meme))
     };
 
-    _getNewMemeId(){
+    _getNewMemeId(meme, countMemes){
         return (meme.season.toString()+ '_' + meme.episode.toString() + '_' + (countMemes+1).toString())
     }
 

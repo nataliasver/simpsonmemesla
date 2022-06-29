@@ -1,5 +1,17 @@
 const express = require("express")
+const mongoose = require("mongoose");
 require("dotenv").config()
+
+const mongoUri = "mongodb+srv://simpsonmemesdb:simpsonmemestp@simpsondbcluster.hsblybu.mongodb.net/?retryWrites=true&w=majority"
+mongoose.connect(mongoUri)
+    .then(()=> console.log("Succesfully connect to mongo"))
+    .catch(e => console.log("Could not connect to mongo. Error:",e))
+
+const db = mongoose.connection
+db.on("error", console.error.bind(console, "connection error: "));
+db.once("open", function () {
+    console.log("Connected successfully to db");
+});
 
 const server = express()
 server.use(express.json());
