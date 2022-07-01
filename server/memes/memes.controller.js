@@ -1,10 +1,17 @@
 const MemesDb = require("./meme.service")
 const _ = require("lodash");
+const {response} = require("express");
 
 const getAllMemes = (req, res, next) => {
-        return res.json({
-            test: "hola"
-        })
+        return new MemesDb().findAll()
+            .then(response => res.json(response));
+}
+
+const getMemeById = (req, res, next) => {
+    console.log(req.query)
+    return new MemesDb().findOneQuery(req.query.value)
+        .then(response => res.json(response))
+        .catch(response => res.json({error: "something went wrong"}))
 }
 
 const uploadMemes = (req, res, next) => {
@@ -22,4 +29,4 @@ const uploadMemes = (req, res, next) => {
     return new MemesDb().create(meme)
 }
 
-module.exports = { getAllMemes, uploadMemes };
+module.exports = { getAllMemes, uploadMemes, getMemeById };
