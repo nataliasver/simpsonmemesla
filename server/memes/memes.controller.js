@@ -7,10 +7,13 @@ const getAllMemes = (req, res, next) => {
             .then(response => res.json(response));
 }
 
-const getMemeById = (req, res, next) => {
+const getMemesById = (req, res, next) => {
     console.log(req.query)
-    return new MemesDb().findOneQuery(req.query.value)
-        .then(response => res.json(response))
+    return new MemesDb().findAllByIdQuery(req.query.value)
+        .then(response => {
+            console.log(response);
+            return res.json(response)
+        })
         .catch(response => res.json({error: "something went wrong"}))
 }
 
@@ -29,4 +32,4 @@ const uploadMemes = (req, res, next) => {
     return new MemesDb().create(meme)
 }
 
-module.exports = { getAllMemes, uploadMemes, getMemeById };
+module.exports = { getAllMemes, uploadMemes, getMemesById };

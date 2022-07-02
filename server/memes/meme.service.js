@@ -33,6 +33,10 @@ class MemesService {
             .then((meme) => (!meme) ? Promise.reject( { name: "NotFound", statusCode: 404 }) : meme)
     };
 
+    findAllByIdQuery(memeId) {
+        return Memes.find({ meme_id: {$regex: memeId, $options: 'i'} })
+    };
+
 }
 
 module.exports = MemesService;

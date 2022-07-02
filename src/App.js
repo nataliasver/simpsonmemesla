@@ -1,20 +1,28 @@
 import logo from './margeAndHomer.webp';
-import './App.css';
-import Pages from "./components/Pages"
+import Navbar from "react-bootstrap/Navbar";
+import Container from "react-bootstrap/Container";
+import HomePagePublic from "./components/HomePagePublic";
 
 function App() {
-
-  return(
-      <>
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Simpon Memes LA</p>
-      </header>
-      <Pages/>
-    </div>
-      </>
-  );
+    return(
+        <>
+            <Navbar bg="dark" variant="dark">
+                <Container>
+                    <Navbar.Brand href="/">
+                        <img
+                            alt=""
+                            src={logo}
+                            width="40"
+                            height="40"
+                            className="d-inline-block align-top"
+                        />{' '}
+                        Simpson Memes La
+                    </Navbar.Brand>
+                </Container>
+            </Navbar>
+            <HomePagePublic/>
+        </>
+    );
 }
 
 export default App;

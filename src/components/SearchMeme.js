@@ -6,45 +6,32 @@ import _ from "lodash"
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-function SearchMeme() {
+function SearchMeme(props) {
 
-    const [typeOfSearch, setTypeOfSearch] = useState("id")
-    const [values, setValues] = useState({
-        title: "",
-        season: "",
-        episode: "",
-        description: "",
-        characters: [],
-        meme_img_ulr: "memes/uploads/no_image.jpg"
-    });
+    const [typeOfSearch, setTypeOfSearch] = useState(props.defaultSearch)
     const [toSearch, setToSearch] = useState("")
 
     function handleSearch(evt) {
         evt.preventDefault()
         const formData = new FormData();
         formData.append(typeOfSearch, toSearch)
-        console.log(toSearch)
-        console.log(typeOfSearch)
-        console.log(formData)
         axios.get(`/api/memes/${typeOfSearch}`, {params: {value: toSearch}})
-            .then(meme => console.log(meme))
-        //setValues(newValues);
+            .then(response => props.onMemesReceive(response.data))
     }
 
     return(
         <>
-            <p>Buscar Meme</p>
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center mt-3">
             <Form className="w-75" onSubmit={handleSearch}>
-            <Form.Group className="d-flex justify-content-around mr-5 mb-3">
+            <Form.Group className="d-flex justify-content-around">
                 <Form.Select onChange={(event) => setTypeOfSearch(event.target.value)} className="w-25">
-                    <option value="id">Id</option>
-                    <option value="title" disabled>Titulo (proximamente)</option>
-                    <option value="episode" disabled>Episodio (proximamente)</option>
-                    <option value="character"disabled>Personaje (proximamente)</option>
+                    <option value="title">Titulo (proximamente)</option>
+                    <option value="episode">Episodio (proximamente)</option>
+                    <option value="character">Personaje (proximamente)</option>
+                    {props.admin && <option value="id">Id</option>}
                 </Form.Select>
                 <Form.Control type="text" onChange={(event) => setToSearch(event.target.value)} id="typeOfSearch" placeholder={"Ingerese un "+typeOfSearch}/>
-                <Button variant="primary" type="submit">
+                <Button variant="secondary" type="submit">
                     Buscar
                 </Button>
             </Form.Group>

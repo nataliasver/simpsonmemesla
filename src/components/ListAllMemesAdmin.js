@@ -4,10 +4,10 @@ import Card from 'react-bootstrap/Card';
 import Button from "react-bootstrap/Button";
 import CardGroup from "react-bootstrap/CardGroup";
 
-function ListAllMemes(props) {
+function ListAllMemesAdmin(props) {
     return(
         <>
-            <CardGroup className="m-5 d-flex justify-content-center">
+            <CardGroup className="d-flex justify-content-center">
             {props.memes.map(meme => {
                 return (
                     <Card key={meme.meme_id}>
@@ -26,4 +26,4 @@ function ListAllMemes(props) {
     );
 }
 
-export default ListAllMemes;
+export default ListAllMemesAdmin;
