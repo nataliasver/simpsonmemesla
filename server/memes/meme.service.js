@@ -37,6 +37,19 @@ class MemesService {
         return Memes.find({ meme_id: {$regex: memeId, $options: 'i'} })
     };
 
+    findAllByTitleQuery(memeTitle) {
+        return Memes.find({ title: {$regex: memeTitle, $options: 'i'} })
+    };
+    findAllBySeason(memeSeason) {
+        return Memes.find({ season: memeSeason })
+    };
+    findAllByEpisode(memeEpisode) {
+        return Memes.find({ episode: memeEpisode })
+    };
+    findAllByCharacter(memeCharacter) {
+        return Memes.find({characters: { $elemMatch: {$regex: memeCharacter, $options: 'i'} } } )
+    }
+
 }
 
 module.exports = MemesService;

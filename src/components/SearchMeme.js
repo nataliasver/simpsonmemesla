@@ -25,13 +25,15 @@ function SearchMeme(props) {
             <Form className="w-75" onSubmit={handleSearch}>
             <Form.Group className="d-flex justify-content-around">
                 <Form.Select onChange={(event) => setTypeOfSearch(event.target.value)} className="w-25">
-                    <option value="title">Titulo (proximamente)</option>
-                    <option value="episode">Episodio (proximamente)</option>
-                    <option value="character">Personaje (proximamente)</option>
+                    <option value="title">Titulo</option>
+                    <option value="season">Temporada</option>
+                    <option value="episode">Episodio</option>
+                    <option value="character">Personaje</option>
                     {props.admin && <option value="id">Id</option>}
                 </Form.Select>
-                <Form.Control type="text" onChange={(event) => setToSearch(event.target.value)} id="typeOfSearch" placeholder={"Ingerese un "+typeOfSearch}/>
-                <Button variant="secondary" type="submit">
+                {(typeOfSearch == 'character' || typeOfSearch == 'title') && <Form.Control type="text" onChange={(event) => setToSearch(event.target.value)} id="typeOfSearch" placeholder={"Ingerese un "+typeOfSearch}/>}
+                {(typeOfSearch == 'season' || typeOfSearch == 'episode') && <Form.Control type="number" onChange={(event) => setToSearch(event.target.value)} id="typeOfSearch" placeholder={"Ingerese un "+typeOfSearch}/>}
+                    <Button variant="secondary" type="submit">
                     Buscar
                 </Button>
             </Form.Group>
