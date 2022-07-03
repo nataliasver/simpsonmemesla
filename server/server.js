@@ -17,13 +17,12 @@ db.once("open", function () {
 const server = express()
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }))
-
+server.use(express.static(path.resolve(__dirname, "../build")));
 
 server.use("/api", require("./memes/memes.routes"))
-// server.use(express.static(path.resolve(__dirname, "./src/build")));
-// server.get('/*', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
+server.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+});
 
 
 server.listen(4000, (err) => {
