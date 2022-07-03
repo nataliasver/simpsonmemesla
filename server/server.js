@@ -25,6 +25,6 @@ server.get('/*', (req, res) => {
 });
 
 
-server.listen(4000, (err) => {
+server.listen(process.env.PORT || 4000, (err) => {
     err ? console.dir("Server failed...") : console.dir("Server running on port http://localhost:4000")
 })
