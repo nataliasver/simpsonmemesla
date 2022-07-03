@@ -8,13 +8,13 @@ import {useEffect} from "react";
 
 
 function AdminMemes() {
-    const [pageNavbar, setPageNavbar] = useState("listall");
+    const [pageNavbar, setPageNavbar] = useState("search");
 
   return(
       <>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand onClick={() => setPageNavbar("listall")}>
+          <Navbar.Brand href={"/adminmemesla"}>
             <img
                 alt=""
                 src={logo}
@@ -27,7 +27,6 @@ function AdminMemes() {
             <Nav className="me-auto">
                 <Nav.Link onClick={() => setPageNavbar("upload")}>Upload</Nav.Link>
                 <Nav.Link onClick={() => setPageNavbar("search")}>Buscar</Nav.Link>
-                <Nav.Link onClick={() => setPageNavbar("edit")}>Editar</Nav.Link>
             </Nav>
         </Container>
       </Navbar>
