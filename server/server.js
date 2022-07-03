@@ -1,5 +1,6 @@
 const express = require("express")
 const mongoose = require("mongoose");
+const path = require("path");
 require("dotenv").config()
 
 const mongoUri = "mongodb+srv://simpsonmemesdb:simpsonmemestp@simpsondbcluster.hsblybu.mongodb.net/?retryWrites=true&w=majority"
@@ -16,6 +17,7 @@ db.once("open", function () {
 const server = express()
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }))
+server.use(express.static(path.resolve(__dirname, "./src/build")));
 
 server.use("/api", require("./memes/memes.routes"))
 
