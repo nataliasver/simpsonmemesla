@@ -7,13 +7,8 @@ import Alert from "react-bootstrap/Alert";
 
 
 function HomePageAdmin(props) {
-    const [isLoading, setIsLoading] = useState(true);
     const [memes, setMemes] = useState(null)
     const [noresult, setNoResult] = useState(false);
-
-    function handleFetchingData() {
-        setIsLoading(true);
-    }
 
     function handleMemesReceived(memesReceived) {
         if(!memesReceived || _.isEmpty(memesReceived)){

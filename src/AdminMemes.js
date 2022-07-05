@@ -1,4 +1,4 @@
-import logo from './margeAndHomer.webp';
+import logo from './lisa_coffee.jpg';
 import Pages from "./components/Pages"
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
@@ -22,7 +22,7 @@ function AdminMemes() {
                 height="40"
                 className="d-inline-block align-top"
             />{' '}
-            Simpson Memes La
+            Simpson Memes La - ADMIN
           </Navbar.Brand>
             <Nav className="me-auto">
                 <Nav.Link onClick={() => setPageNavbar("upload")}>Upload</Nav.Link>

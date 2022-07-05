@@ -4,6 +4,13 @@ const Promise = require("bluebird")
 
 class MemesService {
 
+    _getTimeStamp(){
+        let now = new Date();
+        return ((now.getDate())+ '_' + (now.getMonth() + 1) + '_' + now.getFullYear() + "_" + now.getHours() + '_'
+            + ((now.getMinutes() < 10) ? ("0" + now.getMinutes()) : (now.getMinutes())) + '_' + ((now.getSeconds() < 10) ? ("0" + now
+                .getSeconds()) : (now.getSeconds())));
+    }
+
     create(meme) {
         return Promise.resolve(this.countAllMemesSeasonEpisode(meme.season, meme.episode))
             .then(countMemes => this._getNewMemeId(meme, countMemes))
@@ -12,7 +19,7 @@ class MemesService {
     };
 
     _getNewMemeId(meme, countMemes){
-        return (meme.season.toString()+ '_' + meme.episode.toString() + '_' + (countMemes+1).toString())
+        return (meme.season.toString()+ '_' + meme.episode.toString() + '_' + (countMemes+1).toString() + '_date_'+ this._getTimeStamp())
     }
 
     findAll() {
@@ -35,6 +42,9 @@ class MemesService {
 
     findAllByIdQuery(memeId) {
         return Memes.find({ meme_id: {$regex: memeId, $options: 'i'} })
+    };
+    deleteById(memeId) {
+        return Memes.remove({ meme_id: memeId })
     };
 
     findAllByTitleQuery(memeTitle) {

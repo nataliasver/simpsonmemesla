@@ -5,8 +5,6 @@ import axios from "axios";
 import ListAllMemes from "./ListAllMemes";
 
 function HomePagePublic(props) {
-    const [isLoading, setIsLoading] = useState(true);
-
     const [memes, setMemes] = useState(null)
 
     useEffect(() =>{
@@ -19,10 +17,6 @@ function HomePagePublic(props) {
     },[])
 
 
-    function handleFetchingData() {
-        setIsLoading(true);
-    }
-
     function handleMemesReceived(memesReceived) {
         setMemes(memesReceived);
     }
@@ -31,8 +25,7 @@ function HomePagePublic(props) {
         <>
             <SearchMeme onMemesReceive={handleMemesReceived} admin={false} defaultSearch="title"/>
             {memes && <ListAllMemes memes={memes} admin={false}/>}
-
-            </>
+        </>
 
         );
 }

@@ -21,6 +21,16 @@ const getMemesById = (req, res, next) => {
         .catch(response => res.json({error: "something went wrong"}))
 }
 
+
+const deleteById = (req, res, next) => {
+    return MemesService.deleteById(req.query.value)
+        .then(response => {
+            console.log(response);
+            return res.json(response)
+        })
+        .catch(response => res.json({error: "something went wrong"}))
+}
+
 const getMemesByTitle = (req, res, next) => {
     return MemesService.findAllByTitleQuery(req.query.value)
         .then(response => {
@@ -76,4 +86,4 @@ const uploadMemes = (req, res, next) => {
 
 }
 
-module.exports = { getAllMemes, uploadMemes, getMemesById, getMemesByTitle, getMemesByEpisode, getMemesBySeason, getMemesByCharacter };
+module.exports = { getAllMemes, uploadMemes, getMemesById, getMemesByTitle, getMemesByEpisode, getMemesBySeason, getMemesByCharacter, deleteById };

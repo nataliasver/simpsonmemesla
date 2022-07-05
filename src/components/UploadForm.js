@@ -9,10 +9,20 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Image from 'react-bootstrap/Image'
 
-function UploadForm() {
-    const [memes, setMemes] = useState(null);
+function UploadForm(props) {
     const [file, setFile]= useState(null);
     const [preview, setPreview] = useState("no_image.jpg");
+    const [mode, setMode] = useState("upload")
+
+    useEffect(() => {
+        if(props.mode == 'edit'){
+            setMode("edit")
+            console.log(props.meme)
+            setValues(props.meme)
+            setPreview(props.meme.meme_img_url)
+        }
+
+    }, []);
 
     useEffect(() => {
         if (file == null) return;
@@ -106,7 +116,7 @@ function UploadForm() {
                     <Form.Control type="file" size="sm" id="uploaded_file" name="uploaded_file" onChange={handleFileChange} />
                 </Form.Group>
                     <Form.Group className="w-50" controlId="fromMemePreview">
-                    <Image src={preview} style={{width: 400, height: 250 }} alt="preview del meme a subir"/>
+                    <Image src={preview} style={{maxWidth: 275, maxHeight: 275 }} alt="preview del meme a subir"/>
                     </Form.Group>
                     </Row>
                 <Button variant="secondary" type="submit">

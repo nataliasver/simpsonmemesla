@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const { getAllMemes, uploadMemes, getMemesById, getMemesByTitle, getMemesBySeason, getMemesByEpisode, getMemesByCharacter } = require("./memes.controller")
+const { getAllMemes, uploadMemes, getMemesById, getMemesByTitle, getMemesBySeason, getMemesByEpisode, getMemesByCharacter, deleteById } = require("./memes.controller")
 const multer  = require('multer')
 const cloudinary = require('cloudinary').v2
 
@@ -16,7 +16,7 @@ const upload = multer({ storage: storage })
 router.get("/memes", getAllMemes)
 
 router.get("/memes/id", getMemesById)
-
+router.delete("/memes/id", deleteById)
 router.get("/memes/title", getMemesByTitle)
 router.get("/memes/season", getMemesBySeason)
 router.get("/memes/episode", getMemesByEpisode)
