@@ -1,6 +1,8 @@
+const _ = require("lodash");
 const { model } = require("mongoose");
 const Memes = require("./memes.model");
 const Promise = require("bluebird")
+
 
 class MemesService {
 
@@ -17,6 +19,21 @@ class MemesService {
             .tap(newMemeId => meme.meme_id = newMemeId)
             .then(() => Memes.create(meme))
     };
+
+
+    update(meme) {
+        return this.findOne(meme.meme_id)
+            .then(memeFind => {
+               if(_.isEqual(meme, memeFind)) return memeFind
+                memeFind.meme_img_url = _.get(meme, "meme_img_url") || memeFind.meme_img_url
+                memeFind.title = meme.title
+                memeFind.season = meme.season
+                memeFind.episode = meme.episode
+                memeFind.characters = meme.characters
+                return memeFind.save()
+            })
+    };
+
 
     _getNewMemeId(meme, countMemes){
         return (meme.season.toString()+ '_' + meme.episode.toString() + '_' + (countMemes+1).toString() + '_date_'+ this._getTimeStamp())

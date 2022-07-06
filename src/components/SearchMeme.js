@@ -13,8 +13,8 @@ function SearchMeme(props) {
 
     function handleSearch(evt) {
         evt.preventDefault()
-        const formData = new FormData();
-        formData.append(typeOfSearch, toSearch)
+        // const formData = new FormData();
+        // formData.append(typeOfSearch, toSearch)
         axios.get(`/api/memes/${typeOfSearch}`, {params: {value: toSearch}})
             .then(response => props.onMemesReceive(response.data))
     }

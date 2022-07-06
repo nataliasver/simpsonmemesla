@@ -22,7 +22,7 @@ function AdminMemes() {
                 height="40"
                 className="d-inline-block align-top"
             />{' '}
-            Simpson Memes La - ADMIN
+            Simpson Memes LA - ADMIN
           </Navbar.Brand>
             <Nav className="me-auto">
                 <Nav.Link onClick={() => setPageNavbar("upload")}>Upload</Nav.Link>

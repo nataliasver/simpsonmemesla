@@ -18,18 +18,16 @@ function ExandableBodyCard({ maxHeight, children }) {
     }, [maxHeight]);
 
     return (
-        <Card.Text ref={ref}>
-            <div
-                style={{ maxHeight: expanded ? MAX_POSSIBLE_HEIGHT : maxHeight,
-                    overflow: "hidden",
-                    transition: "max-height 0.2s ease" }}
-            >
+        <>
+        <Card.Text ref={ref} style={{ maxHeight: expanded ? MAX_POSSIBLE_HEIGHT : maxHeight,
+            overflow: "hidden",
+            transition: "max-height 0.2s ease" }}>
                 {children}
-            </div>
+        </Card.Text>
             {shouldShowExpand && (
                 <Button variant="light" onClick={() => setExpanded(!expanded)}>...</Button>
             )}
-        </Card.Text>
+            </>
     );
 };
 

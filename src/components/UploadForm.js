@@ -63,12 +63,14 @@ function UploadForm(props) {
             [name]: fixedValue,
         };
         setValues(newValues);
+        if(mode == 'edit') props.onEditMeme(newValues)
     }
 
     function handleFileChange(event) {
         const newFile = event.target.files[0] || null;
         console.log(newFile);
         setFile(newFile);
+        if(mode == 'edit') props.onEditFile(newFile)
     }
 
     return(
@@ -111,17 +113,17 @@ function UploadForm(props) {
             </Row>
 
                 <Row className="mb-3">
-                <Form.Group controlId="formFileMeme" className="mb-3 w-50">
+                <Form.Group controlId="uploaded_file" className="mb-3 w-50">
                     <Form.Label>Meme</Form.Label>
-                    <Form.Control type="file" size="sm" id="uploaded_file" name="uploaded_file" onChange={handleFileChange} />
+                    <Form.Control type="file" size="sm" name="uploaded_file" onChange={handleFileChange} />
                 </Form.Group>
                     <Form.Group className="w-50" controlId="fromMemePreview">
                     <Image src={preview} style={{maxWidth: 275, maxHeight: 275 }} alt="preview del meme a subir"/>
                     </Form.Group>
                     </Row>
-                <Button variant="secondary" type="submit">
+                {mode == 'upload' && <Button variant="secondary" type="submit">
                     Upload meme
-                </Button>
+                </Button>}
             </Form>
             </div>
 

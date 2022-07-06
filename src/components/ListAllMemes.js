@@ -29,6 +29,7 @@ function ListAllMemes(props) {
 
     const [showEdit, setShowEdit] = useState(false);
     const [memeEdit, setMemeEdit] = useState(null);
+    const [fileEdit, setFileEdit] = useState(null);
     const handleCloseEdit = () => {
         setShowEdit(false);
     }
@@ -36,8 +37,25 @@ function ListAllMemes(props) {
         setMemeEdit(memeEditShow);
         setShowEdit(true);
     }
-    const handleEdit = () => {
-        console.log(memeEdit)
+    const handleEdit = (evt) => {
+        evt.preventDefault();
+        const formData = new FormData();
+        Object.entries(memeEdit).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+        formData.append("file", fileEdit);
+        console.log(Object.fromEntries(formData))
+        const headers = {
+            "Content-Type": "multipart/form-data"
+        }
+        return axios.put("/api/update/meme",formData, headers)
+            .then(() => setShowEdit(false));
+    }
+    const handleOnEditMeme = (updatedMeme) => {
+        setMemeEdit(updatedMeme)
+    }
+    const handleOnEditFile = (file) => {
+        setFileEdit(file)
     }
 
     return (
@@ -52,7 +70,6 @@ function ListAllMemes(props) {
                                     <Card.Title>{meme.title}</Card.Title>
                                     <Card.Subtitle className="mb-2 text-muted">Temporada {meme.season} -
                                         Episodio {meme.episode}</Card.Subtitle>
-                                    {/*<Card.Text> {meme.description}</Card.Text>*/}
                                     <ExandableBodyCard maxHeight={60}>{meme.description}</ExandableBodyCard>
                                     <Button variant="light" onClick={() => {handleDownload(meme.meme_img_url, meme.season+'_'+meme.episode+"_"+meme.title)}}>
                                         <img src="../download.svg" alt=""/>
@@ -88,7 +105,7 @@ function ListAllMemes(props) {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <UploadForm meme={memeEdit} mode={"edit"}/>
+                    <UploadForm meme={memeEdit} mode={"edit"} onEditMeme={handleOnEditMeme} onEditFile={handleOnEditFile}/>
                 </Modal.Body>
 
                 <Modal.Footer>

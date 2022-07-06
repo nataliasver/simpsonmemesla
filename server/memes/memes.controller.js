@@ -86,4 +86,36 @@ const uploadMemes = (req, res, next) => {
 
 }
 
-module.exports = { getAllMemes, uploadMemes, getMemesById, getMemesByTitle, getMemesByEpisode, getMemesBySeason, getMemesByCharacter, deleteById };
+const updateMeme = (req, res, next) => {
+    const meme = _requestToMeme(req.body);
+    return _uploadFileIfExist(req.file, meme)
+        .then(meme => _.merge({}, meme, { meme_id: req.body.meme_id }))
+        .then(meme => MemesService.update(meme))
+        .then(() => res.json("Salio todo joyaaaaa xD"))
+
+}
+
+const _requestToMeme = (request) => {
+    return ({
+        title: _.get(request, "title"),
+        season: _.get(request, "season"),
+        episode: _.get(request, "episode"),
+        description: _.get(request, "description"),
+        characters: _(_.get(request,"characters")).split(",").compact().value(),
+    });
+}
+
+const _uploadFileIfExist = (file, meme) => {
+    if(!file) return Promise.resolve(meme);
+    const dUri = new DataURIParser();
+    const dataUri = dUri.format(path.basename(file.originalname).toString(), file.buffer);
+    const fileParse = dataUri.content;
+    return uploader.upload(fileParse)
+        .then((result) => {
+            meme.meme_img_url = result.url
+            return meme
+        })
+
+}
+
+module.exports = { getAllMemes, uploadMemes, getMemesById, getMemesByTitle, getMemesByEpisode, getMemesBySeason, getMemesByCharacter, deleteById, updateMeme };
