@@ -5,10 +5,12 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import {useState} from "react";
 import {useEffect} from "react";
+import Button from "react-bootstrap/Button";
 
 
 function AdminMemes() {
     const [pageNavbar, setPageNavbar] = useState("search");
+    const [isLogin, setIsLogin] = useState(false)
 
   return(
       <>
@@ -28,6 +30,7 @@ function AdminMemes() {
                 <Nav.Link onClick={() => setPageNavbar("upload")}>Upload</Nav.Link>
                 <Nav.Link onClick={() => setPageNavbar("search")}>Buscar</Nav.Link>
             </Nav>
+            <Button>Logout</Button>
         </Container>
       </Navbar>
       <Pages pageNavbar={pageNavbar}/>

@@ -1,6 +1,7 @@
 const router = require("express").Router()
 const { getAllMemes, uploadMemes, getMemesById, getMemesByTitle, getMemesBySeason, getMemesByEpisode, getMemesByCharacter, deleteById, updateMeme } = require("./memes.controller")
 const multer  = require('multer')
+const {verifyToken} = require("../middleware/VerifyToken");
 const cloudinary = require('cloudinary').v2
 
 const storage = multer.memoryStorage()
@@ -13,14 +14,14 @@ cloudinary.config({
 
 const upload = multer({ storage: storage })
 
-router.get("/memes", getAllMemes)
+router.get("/memes", verifyToken, getAllMemes)
 
-router.get("/memes/id", getMemesById)
-router.delete("/memes/id", deleteById)
-router.get("/memes/title", getMemesByTitle)
-router.get("/memes/season", getMemesBySeason)
-router.get("/memes/episode", getMemesByEpisode)
-router.get("/memes/character", getMemesByCharacter)
+router.get("/id", getMemesById)
+router.delete("/id", deleteById)
+router.get("/title", getMemesByTitle)
+router.get("/season", getMemesBySeason)
+router.get("/episode", getMemesByEpisode)
+router.get("/character", getMemesByCharacter)
 
 router.post("/upload/meme", upload.single('file'), uploadMemes);
 router.put("/update/meme", upload.single('file'), updateMeme)

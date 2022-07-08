@@ -52,7 +52,7 @@ function UploadForm(props) {
         const headers = {
             "Content-Type": "multipart/form-data"
         }
-        return axios.post("/api/upload/meme", formData, headers);
+        return axios.post("/api/memes/upload/meme", formData, headers);
     }
     function handleChange(evt) {
         const { target } = evt;

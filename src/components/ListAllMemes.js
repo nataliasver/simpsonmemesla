@@ -48,7 +48,7 @@ function ListAllMemes(props) {
         const headers = {
             "Content-Type": "multipart/form-data"
         }
-        return axios.put("/api/update/meme",formData, headers)
+        return axios.put("/api/memes/update/meme",formData, headers)
             .then(() => setShowEdit(false));
     }
     const handleOnEditMeme = (updatedMeme) => {
