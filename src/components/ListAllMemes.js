@@ -8,12 +8,22 @@ import {useEffect, useState} from "react";
 import UploadForm from "./UploadForm";
 import ExandableBodyCard from "./ExandableBodyCard";
 import Row from "react-bootstrap/Row";
+import _ from "lodash";
+import {replace} from "lodash/string";
 
 function ListAllMemes(props) {
     const memes = props.memes
     const handleDownload = (url, filename) => {
+        const urlFixed = _.replace('http', 'https', url);
+        const urlSplit = _.split(url, '.')
+        const extension =  urlSplit[urlSplit.length - 1]
+        let filenameFixed = _.replace(filename,',','');
+        filenameFixed = _.replace(filenameFixed,'!','');
+        filenameFixed = _.replace(filenameFixed,'?','');
+        filenameFixed = _.replace(filenameFixed,/ /g, '_');
+
         axios.get(url, { responseType: "blob"})
-            .then((res) => fileDownload(res.data, filename));
+            .then((res) => fileDownload(res.data, filenameFixed +'.'+extension));
     };
     const [show, setShow] = useState(false);
     const [memeId, setMemeId] = useState("");
