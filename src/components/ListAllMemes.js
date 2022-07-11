@@ -9,7 +9,6 @@ import UploadForm from "./UploadForm";
 import ExandableBodyCard from "./ExandableBodyCard";
 import Row from "react-bootstrap/Row";
 import _ from "lodash";
-import {replace} from "lodash/string";
 
 function ListAllMemes(props) {
     const memes = props.memes
@@ -21,7 +20,6 @@ function ListAllMemes(props) {
         filenameFixed = _.replace(filenameFixed,'!','');
         filenameFixed = _.replace(filenameFixed,'?','');
         filenameFixed = _.replace(filenameFixed,/ /g, '_');
-
         axios.get(urlFixed, { responseType: "blob"})
             .then((res) => fileDownload(res.data, filenameFixed +'.'+extension));
     };
@@ -76,10 +74,10 @@ function ListAllMemes(props) {
     return (
         <>
             {memes && <div className="container mt-2 d-flex justify-content-center">
-                <Row>
+                <Row className="w-100">
                     {memes && memes.map(meme => {
                         return (
-                            <Card key={meme.meme_id} style={{height: 35+ "rem"}} className="col-12 col-md-6 col-xl-4">
+                            <Card key={meme.meme_id} style={{height: 35+ "rem"}} className="col-12 col-sm-12 col-md-4 col-lg-4">
                                 <Card.Img variant="top" style={{height: 18 + "rem"}} src={meme.meme_img_url}/>
                                 <Card.Body>
                                     <Card.Title>{meme.title}</Card.Title>
