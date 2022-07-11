@@ -22,7 +22,7 @@ function ListAllMemes(props) {
         filenameFixed = _.replace(filenameFixed,'?','');
         filenameFixed = _.replace(filenameFixed,/ /g, '_');
 
-        axios.get(url, { responseType: "blob"})
+        axios.get(urlFixed, { responseType: "blob"})
             .then((res) => fileDownload(res.data, filenameFixed +'.'+extension));
     };
     const [show, setShow] = useState(false);
