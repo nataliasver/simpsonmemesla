@@ -48,8 +48,6 @@ function UploadForm(props) {
         });
 
         formData.append("file", file);
-        console.log(Object.fromEntries(formData))
-        console.log(props.token)
         const headers = {
             "Content-Type": "multipart/form-data",
             "Authorization": `Bearer ${props.token}`

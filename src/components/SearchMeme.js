@@ -8,12 +8,14 @@ import Button from "react-bootstrap/Button";
 import FormGroup from "react-bootstrap/FormGroup";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row"
+import Alert from "react-bootstrap/Alert";
 
 function SearchMeme(props) {
 
     const [typeOfSearch, setTypeOfSearch] = useState(props.defaultSearch)
     const [toSearch, setToSearch] = useState("")
     const [validated, setValidated] = useState(false);
+    const [noMemes, setNoMemes] = useState(false);
 
     function handleSearch(evt) {
         const form = evt.currentTarget;
@@ -26,9 +28,16 @@ function SearchMeme(props) {
         evt.preventDefault()
         console.log("pasa pro aca")
         axios.get(`/api/memes/${typeOfSearch}`, {params: {value: toSearch}})
-            .then(response => props.onMemesReceive(response.data))
+            .then(response => {
+                _.isEmpty(response.data)? setNoMemes(true) : setNoMemes(false);
+                props.onMemesReceive(response.data)
+            })
             .then(() =>  setValidated(false));
     }
+    useEffect(() => {
+            setNoMemes(false)
+    }
+    ,[typeOfSearch, toSearch]);
 
     return (
         <>
@@ -65,6 +74,13 @@ function SearchMeme(props) {
                                 </Form.Group>
                     </Row>
                 </Form>
+                {noMemes &&
+                    <div className='d-flex justify-content-center m-3'>
+                        <Alert className="w-50 align-self-center" variant='secondary'>
+                            No se encontraron memes con ese {typeOfSearch}
+                        </Alert>
+                    </div>
+                }
             </div>
 
         </>

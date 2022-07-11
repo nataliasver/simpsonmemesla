@@ -31,13 +31,6 @@ function HomePageAdmin(props) {
                 </Alert>
             </div>
             }
-            {noresult &&
-                <div className='d-flex justify-content-center m-3'>
-                    <Alert className="w-50 align-self-center" variant='secondary'>
-                        No se encontraron memes! =(
-                    </Alert>
-                </div>
-            }
         </>
     );
 }
