@@ -23,7 +23,7 @@ function HomePageAdmin(props) {
     return(
         <>
             <SearchMeme onMemesReceive={handleMemesReceived} admin={true} defaultSearch="id"/>
-            { memes && <ListAllMemes memes={memes} admin={true}/>}
+            { memes && <ListAllMemes memes={memes} admin={true} axiosJWT={props.axiosJWT} token={props.token}/>}
             { !memes && !noresult &&
             <div className='d-flex justify-content-center m-3'>
                 <Alert className="w-50 align-self-center" variant='secondary'>

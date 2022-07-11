@@ -6,11 +6,27 @@ import Nav from "react-bootstrap/Nav";
 import {useState} from "react";
 import {useEffect} from "react";
 import Button from "react-bootstrap/Button";
-
+import axios from 'axios';
 
 function AdminMemes() {
-    const [pageNavbar, setPageNavbar] = useState("search");
+    const [pageNavbar, setPageNavbar] = useState("login");
     const [isLogin, setIsLogin] = useState(false)
+
+    function logout(){
+        axios.delete('/api/users/logout')
+            .then(() => {
+                setPageNavbar("login");
+                setIsLogin(false);
+            })
+    }
+    function handleLogin(){
+        setPageNavbar("upload");
+        setIsLogin(true)
+    }
+    function hanldleLogoutOnEror(){
+        setPageNavbar("login");
+        setIsLogin(false);
+    }
 
   return(
       <>
@@ -26,14 +42,16 @@ function AdminMemes() {
             />{' '}
             Simpson Memes LA - ADMIN
           </Navbar.Brand>
-            <Nav className="me-auto">
+            {isLogin &&
+                <Nav className="me-auto">
                 <Nav.Link onClick={() => setPageNavbar("upload")}>Upload</Nav.Link>
                 <Nav.Link onClick={() => setPageNavbar("search")}>Buscar</Nav.Link>
             </Nav>
-            <Button>Logout</Button>
+            }
+            {isLogin && <Button onClick={logout}>Logout</Button>}
         </Container>
       </Navbar>
-      <Pages pageNavbar={pageNavbar}/>
+      <Pages pageNavbar={pageNavbar} onLogin={handleLogin} onLogoutError={hanldleLogoutOnEror}/>
       </>
   );
 }

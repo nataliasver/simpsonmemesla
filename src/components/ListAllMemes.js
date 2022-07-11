@@ -23,7 +23,10 @@ function ListAllMemes(props) {
         setShow(true);
     }
     const handleDelete = () => {
-        axios.delete("/api/memes/id",{params: {value: memeId}})
+        const headers = {
+            "Authorization": `Bearer ${props.token}`
+        }
+        props.axiosJWT.delete("/api/memes/id",{params: {value: memeId}, headers})
             .then(() => setShow(false));
     }
 
@@ -45,10 +48,12 @@ function ListAllMemes(props) {
         });
         formData.append("file", fileEdit);
         console.log(Object.fromEntries(formData))
+        console.log(props.token)
         const headers = {
-            "Content-Type": "multipart/form-data"
+            "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${props.token}`
         }
-        return axios.put("/api/memes/update/meme",formData, headers)
+        return props.axiosJWT.put("/api/memes/update/meme",formData, headers)
             .then(() => setShowEdit(false));
     }
     const handleOnEditMeme = (updatedMeme) => {

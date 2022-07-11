@@ -8,7 +8,7 @@ function HomePagePublic(props) {
     const [memes, setMemes] = useState(null)
 
     useEffect(() =>{
-        axios.get("/api/memes")
+        axios.get("/api/memes/memes")
             .catch(e => console.log("Fallo re mal: ",e))
             .then(res => {
                 console.log(res.data)

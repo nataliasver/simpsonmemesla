@@ -49,10 +49,13 @@ function UploadForm(props) {
 
         formData.append("file", file);
         console.log(Object.fromEntries(formData))
+        console.log(props.token)
         const headers = {
-            "Content-Type": "multipart/form-data"
+            "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${props.token}`
         }
-        return axios.post("/api/memes/upload/meme", formData, headers);
+        return props.axiosJWT.post("/api/memes/upload/meme", formData, headers)
+            .catch(e => console.log("Hubo un problema subiendo el meme: ", e));
     }
     function handleChange(evt) {
         const { target } = evt;

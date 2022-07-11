@@ -14,16 +14,15 @@ cloudinary.config({
 
 const upload = multer({ storage: storage })
 
-router.get("/memes", verifyToken, getAllMemes)
-
+router.get("/memes", getAllMemes)
 router.get("/id", getMemesById)
-router.delete("/id", deleteById)
 router.get("/title", getMemesByTitle)
 router.get("/season", getMemesBySeason)
 router.get("/episode", getMemesByEpisode)
 router.get("/character", getMemesByCharacter)
 
-router.post("/upload/meme", upload.single('file'), uploadMemes);
-router.put("/update/meme", upload.single('file'), updateMeme)
+router.delete("/id", verifyToken, deleteById)
+router.post("/upload/meme", verifyToken,upload.single('file'), uploadMemes);
+router.put("/update/meme", verifyToken,upload.single('file'), updateMeme)
 
 module.exports = router
