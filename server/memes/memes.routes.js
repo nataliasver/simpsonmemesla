@@ -3,13 +3,14 @@ const { getAllMemes, uploadMemes, getMemesById, getMemesByTitle, getMemesBySeaso
 const multer  = require('multer')
 const {verifyToken} = require("../middleware/VerifyToken");
 const cloudinary = require('cloudinary').v2
+require("dotenv").config()
 
 const storage = multer.memoryStorage()
 
 cloudinary.config({
-    cloud_name: 'hlfsdsmbr',
-    api_key: '998847769732581',
-    api_secret: 'l-xAEQmofOJIbpT-WP_Sv43yy_g'
+    cloud_name:process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 const upload = multer({ storage: storage })
