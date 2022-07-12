@@ -73,13 +73,12 @@ function ListAllMemes(props) {
         Object.entries(memeEdit).forEach(([key, value]) => {
             formData.append(key, value);
         });
-        console.log(props.token)
         formData.append("file", fileEdit);
         const headers = {
             "Authorization": `Bearer ${props.token}`,
             "Content-Type": "multipart/form-data"
         }
-        props.axiosJWT.put("/api/memes/update/meme",formData, headers)
+        props.axiosJWT.put("/api/memes/update/meme",formData, { headers })
             .then(() => {
                 setShowEdit(false)
                 setIsLoading(false);

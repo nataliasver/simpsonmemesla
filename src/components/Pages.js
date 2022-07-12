@@ -53,12 +53,16 @@ function Pages(props) {
                 const decoded = jwt_decode(response.data.accessToken);
                 setName(decoded.name);
                 setExpire(decoded.exp);
-                console.log(config)
+                console.log(`la config en el interceptor es`, config)
                 return config;
             })
-            .catch(() => props.onLogoutError())
+            .catch(() => {
+                console.log('Hubo un error en el interceptor 2')
+                return props.onLogoutError()
+            })
 
     }, (error) => {
+        console.log('hubo un error en el interceptor');
         props.onLogoutError()
         return Promise.reject(error);
     });

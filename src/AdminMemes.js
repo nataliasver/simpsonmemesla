@@ -9,7 +9,7 @@ import Button from "react-bootstrap/Button";
 import axios from 'axios';
 
 function AdminMemes() {
-    const [pageNavbar, setPageNavbar] = useState("login");
+    const [pageNavbar, setPageNavbar] = useState("");
     const [isLogin, setIsLogin] = useState(false)
 
     function logout(){
