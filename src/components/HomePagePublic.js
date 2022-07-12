@@ -9,9 +9,8 @@ function HomePagePublic(props) {
 
     useEffect(() =>{
         axios.get("/api/memes/memes")
-            .catch(e => console.log("Fallo re mal: ",e))
+            .catch(e => console.log("Fallo la carga de memes ",e))
             .then(res => {
-                console.log(res.data)
                 setMemes(res.data)
             })
     },[])

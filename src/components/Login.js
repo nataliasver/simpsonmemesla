@@ -14,15 +14,11 @@ function Login(props) {
 
     function handleLogin(e) {
         e.preventDefault();
-        console.log("toy logiandome")
         axios.post('/api/users/login', {
             email: email,
             password: password
         })
-            .then(() => {
-                console.log("a ver q onda")
-                props.onlogin()
-            })
+            .then(() => props.onlogin())
             .catch(e => e.response && setMsg(e.response.data.msg));
     }
 
