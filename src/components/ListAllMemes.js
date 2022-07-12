@@ -22,8 +22,6 @@ function ListAllMemes(props) {
         filenameFixed = _.replace(filenameFixed,'!','');
         filenameFixed = _.replace(filenameFixed,'?','');
         filenameFixed = _.replace(filenameFixed,/ /g, '_');
-        console.log(`image/${extension}`);
-
         axios.get(urlFixed, { responseType: 'blob'})
             .then((res) => fileDownload(res.data, filenameFixed +'.'+extension));
     };

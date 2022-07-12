@@ -3,11 +3,10 @@ const mongoose = require("mongoose");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 
-// const {router} = require("express/lib/application");
 require("dotenv").config()
 
 
-const mongoUri = "mongodb+srv://simpsonmemesdb:simpsonmemestp@simpsondbcluster.hsblybu.mongodb.net/?retryWrites=true&w=majority"
+const mongoUri = process.env.MONGO_URI
 mongoose.connect(mongoUri)
     .then(()=> console.log("Succesfully connect to mongo"))
     .catch(e => console.log("Could not connect to mongo. Error:",e))
