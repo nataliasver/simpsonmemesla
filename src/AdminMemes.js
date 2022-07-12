@@ -48,7 +48,7 @@ function AdminMemes() {
                 <Nav.Link onClick={() => setPageNavbar("search")}>Buscar</Nav.Link>
             </Nav>
             }
-            {isLogin && <Button onClick={logout}>Logout</Button>}
+            {isLogin && <Button variant="secondary" onClick={logout}>Logout</Button>}
         </Container>
       </Navbar>
       <Pages pageNavbar={pageNavbar} onLogin={handleLogin} onLogoutError={hanldleLogoutOnEror}/>

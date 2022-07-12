@@ -147,7 +147,7 @@ function ListAllMemes(props) {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <UploadForm meme={memeEdit} mode={"edit"} onEditMeme={handleOnEditMeme} onEditFile={handleOnEditFile}/>
+                    <UploadForm meme={memeEdit} mode={"edit"} onIsLoading={isLoading} onEditMeme={handleOnEditMeme} onEditFile={handleOnEditFile}/>
                 </Modal.Body>
 
                 <Modal.Footer>
