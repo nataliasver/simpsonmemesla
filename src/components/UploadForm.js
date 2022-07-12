@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Promise from "bluebird"
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 import _ from "lodash"
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -18,6 +18,8 @@ function UploadForm(props) {
     const [targetFile, setTargetFile] = useState("")
     const [isLoading, setIsLoading] = useState(false);
     const [msg, setMsg] = useState('')
+    const [validated,setValidated] = useState(false);
+    const inputFile = useRef(null)
 
     useEffect(() => {
         if(props.mode == 'edit'){
@@ -47,6 +49,13 @@ function UploadForm(props) {
     });
 
    function handleSubmit(evt) {
+       const form = evt.currentTarget;
+       if (form.checkValidity() === false) {
+           evt.preventDefault();
+           evt.stopPropagation();
+           setValidated(true)
+           return;
+       }
         evt.preventDefault();
         setIsLoading(true);
         const formData = new FormData();
@@ -70,11 +79,12 @@ function UploadForm(props) {
                     characters: []
                 })
                 setFile(null)
-                setTargetFile('');
+                inputFile.current.value = ''
                 setPreview("no_image.jpg")
                 setIsLoading(false);
                 setMsg(`Se subio exitosamente el meme!`)
                 setShow(true)
+                setValidated(false);
             })
             .catch(e => {
                 setIsLoading(false);
@@ -82,6 +92,7 @@ function UploadForm(props) {
                 setShow(true)
             });
     }
+
     function handleChange(evt) {
         const { target } = evt;
         const { name, value } = target;
@@ -111,11 +122,11 @@ function UploadForm(props) {
             </Toast>
             </div>
             <div className="d-flex justify-content-center m-3">
-            <Form className="w-75" onSubmit={handleSubmit}>
+            <Form noValidate validated={validated} className="w-75" onSubmit={handleSubmit}>
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridTitle">
                         <Form.Label>Titulo</Form.Label>
-                        <Form.Control disabled={isLoading || props.onIsLoading}
+                        <Form.Control required disabled={isLoading || props.onIsLoading}
                             type="text" name="title" value={values.title} onChange={handleChange}
                             placeholder="Ingrese titulo del meme"/>
                     </Form.Group>
@@ -124,24 +135,24 @@ function UploadForm(props) {
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridSeason">
                         <Form.Label>Temporada</Form.Label>
-                        <Form.Control disabled={isLoading || props.onIsLoading} type="number" name="season" value={values.season} onChange={handleChange} />
+                        <Form.Control required disabled={isLoading || props.onIsLoading} type="number" name="season" value={values.season} onChange={handleChange} />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridEpisode">
                         <Form.Label>Episodio</Form.Label>
-                        <Form.Control disabled={isLoading || props.onIsLoading} type="number" name="episode" value={values.episode} onChange={handleChange} />
+                        <Form.Control required disabled={isLoading || props.onIsLoading} type="number" name="episode" value={values.episode} onChange={handleChange} />
                     </Form.Group>
                 </Row>
                 <Row className="mb-3">
                 <Form.Group as={Col} className="mb-3" controlId="formGridEpisode">
                     <Form.Label>Descripcion</Form.Label>
-                    <Form.Control disabled={isLoading || props.onIsLoading} as="textarea" type="text" name="description" value={values.description} onChange={handleChange}
+                    <Form.Control required disabled={isLoading || props.onIsLoading} as="textarea" type="text" name="description" value={values.description} onChange={handleChange}
                                   placeholder="Ingrese descripcion del meme"/>
                 </Form.Group>
 
                 <Form.Group as={Col} className="mb-3" controlId="formGridEpisode">
                     <Form.Label>Personajes</Form.Label>
-                    <Form.Control disabled={isLoading || props.onIsLoading} as="textarea" type="text" name="characters" value={values.characters} onChange={handleChange}
+                    <Form.Control required disabled={isLoading || props.onIsLoading} as="textarea" type="text" name="characters" value={values.characters} onChange={handleChange}
                     placeholder="Ingrese nombres de personajes separados por comas"/>
                 </Form.Group>
 
@@ -150,7 +161,7 @@ function UploadForm(props) {
                 <Row className="mb-3">
                 <Form.Group controlId="uploaded_file" className="mb-3 w-50">
                     <Form.Label>Meme</Form.Label>
-                    <Form.Control disabled={isLoading || props.onIsLoading} type="file" size="sm" name="uploaded_file" value={targetFile} onChange={handleFileChange} />
+                    <Form.Control required={mode == 'upload'} disabled={isLoading || props.onIsLoading} type="file" size="sm" name="uploaded_file" ref={inputFile} onChange={handleFileChange} />
                 </Form.Group>
                     <Form.Group className="w-50" controlId="fromMemePreview">
                     <Image src={preview} style={{maxWidth: 275, maxHeight: 275 }} alt="preview del meme a subir"/>
