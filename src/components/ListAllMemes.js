@@ -9,9 +9,11 @@ import UploadForm from "./UploadForm";
 import ExandableBodyCard from "./ExandableBodyCard";
 import Row from "react-bootstrap/Row";
 import _ from "lodash";
+import Toast from "react-bootstrap/Toast";
 
 function ListAllMemes(props) {
     const memes = props.memes
+
     const handleDownload = (url, filename) => {
         const urlFixed = _.replace('http', 'https', url);
         const urlSplit = _.split(url, '.')
@@ -23,6 +25,7 @@ function ListAllMemes(props) {
         axios.get(urlFixed, { responseType: "blob"})
             .then((res) => fileDownload(res.data, filenameFixed +'.'+extension));
     };
+
     const [show, setShow] = useState(false);
     const [memeId, setMemeId] = useState("");
     const handleClose = () => setShow(false);
@@ -31,16 +34,31 @@ function ListAllMemes(props) {
         setShow(true);
     }
     const handleDelete = () => {
+        setIsLoading(true)
         const headers = {
             "Authorization": `Bearer ${props.token}`
         }
         props.axiosJWT.delete("/api/memes/id",{params: {value: memeId}, headers})
-            .then(() => setShow(false));
+            .then(() => {
+                setIsLoading(false)
+                setShow(false)
+                const msg = `Se ha eliminado el meme correctamente!`
+                props.onChangeMeme(msg)
+            })
+            .catch(e =>  {
+                setIsLoading(false)
+                setShow(false)
+                const msg = `Ha habido un problema con update del meme: ${e}`
+                props.onChangeMeme(msg);
+            })
+
     }
 
     const [showEdit, setShowEdit] = useState(false);
     const [memeEdit, setMemeEdit] = useState(null);
     const [fileEdit, setFileEdit] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleCloseEdit = () => {
         setShowEdit(false);
     }
@@ -50,19 +68,30 @@ function ListAllMemes(props) {
     }
     const handleEdit = (evt) => {
         evt.preventDefault();
+        setIsLoading(true);
         const formData = new FormData();
         Object.entries(memeEdit).forEach(([key, value]) => {
             formData.append(key, value);
         });
-        formData.append("file", fileEdit);
-        console.log(Object.fromEntries(formData))
         console.log(props.token)
+        formData.append("file", fileEdit);
         const headers = {
-            "Content-Type": "multipart/form-data",
-            "Authorization": `Bearer ${props.token}`
+            "Authorization": `Bearer ${props.token}`,
+            "Content-Type": "multipart/form-data"
         }
-        return props.axiosJWT.put("/api/memes/update/meme",formData, headers)
-            .then(() => setShowEdit(false));
+        props.axiosJWT.put("/api/memes/update/meme",formData, headers)
+            .then(() => {
+                setShowEdit(false)
+                setIsLoading(false);
+                const msg = `Se ha actualizado el meme correctamente!`
+                props.onChangeMeme(msg)
+            })
+            .catch(e => {
+                setShowEdit(false)
+                setIsLoading(false);
+                const msg = `Ha habido un problema con update del meme: ${e}`
+                props.onChangeMeme(msg)
+            });
     }
     const handleOnEditMeme = (updatedMeme) => {
         setMemeEdit(updatedMeme)
@@ -81,6 +110,7 @@ function ListAllMemes(props) {
                                 <Card.Img variant="top" style={{height: 18 + "rem"}} src={meme.meme_img_url}/>
                                 <Card.Body>
                                     <Card.Title>{meme.title}</Card.Title>
+                                    {props.admin && <Card.Subtitle className="mb-2 text-muted">ID: {meme.meme_id}</Card.Subtitle>}
                                     <Card.Subtitle className="mb-2 text-muted">Temporada {meme.season} -
                                         Episodio {meme.episode}</Card.Subtitle>
                                     <ExandableBodyCard maxHeight={60}>{meme.description}</ExandableBodyCard>
@@ -106,8 +136,8 @@ function ListAllMemes(props) {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="danger" onClick={handleDelete}>
-                        ELIMINAR
+                    <Button variant="danger" onClick={handleDelete} disabled={isLoading}>
+                        {isLoading ? 'Updating…' : 'Eliminar'}
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -123,10 +153,10 @@ function ListAllMemes(props) {
 
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseEdit}>
-                        Close
+                        Cancelar
                     </Button>
-                    <Button variant="primary" onClick={handleEdit}>
-                        Subir Cambios
+                    <Button variant="primary" onClick={handleEdit} disabled={isLoading}>
+                        {isLoading ? 'Updating…' : 'Update Meme'}
                     </Button>
                 </Modal.Footer>
             </Modal>

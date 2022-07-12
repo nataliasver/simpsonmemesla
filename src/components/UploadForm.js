@@ -8,17 +8,23 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Image from 'react-bootstrap/Image'
+import Toast from "react-bootstrap/Toast";
 
 function UploadForm(props) {
     const [file, setFile]= useState(null);
     const [preview, setPreview] = useState("no_image.jpg");
     const [mode, setMode] = useState("upload")
+    const [show, setShow] = useState(false);
+    const [targetFile, setTargetFile] = useState("")
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if(props.mode == 'edit'){
             setMode("edit")
-            console.log(props.meme)
-            setValues(props.meme)
+            const fixedValue =  _(props.meme.characters).split(",").value()
+            const fixedMeme = _.assign({} , props.meme, fixedValue);
+            setValues(fixedMeme)
+            console.log(props.meme);
             setPreview(props.meme.meme_img_url)
         }
 
@@ -42,6 +48,7 @@ function UploadForm(props) {
 
    function handleSubmit(evt) {
         evt.preventDefault();
+        setIsLoading(true);
         const formData = new FormData();
         Object.entries(values).forEach(([key, value]) => {
             formData.append(key, value);
@@ -53,7 +60,24 @@ function UploadForm(props) {
             "Authorization": `Bearer ${props.token}`
         }
         return props.axiosJWT.post("/api/memes/upload/meme", formData, headers)
-            .catch(e => console.log("Hubo un problema subiendo el meme: ", e));
+            .then(() => setShow(true))
+            .then(() => {
+                setValues({
+                    title: "",
+                    season: "",
+                    episode: "",
+                    description: "",
+                    characters: []
+                })
+                setFile(null)
+                setTargetFile('');
+                setPreview("no_image.jpg")
+                setIsLoading(false);
+            })
+            .catch(e => {
+                console.log("Hubo un problema subiendo el meme: ", e)
+                setIsLoading(false);
+            });
     }
     function handleChange(evt) {
         const { target } = evt;
@@ -69,13 +93,20 @@ function UploadForm(props) {
 
     function handleFileChange(event) {
         const newFile = event.target.files[0] || null;
-        console.log(newFile);
         setFile(newFile);
         if(mode == 'edit') props.onEditFile(newFile)
     }
 
     return(
         <>
+            <div className="d-flex justify-content-center m-3">
+            <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
+                <Toast.Header>
+                    <strong className="me-auto">Meme upload!</strong>
+                </Toast.Header>
+                <Toast.Body>Se ha subido exitosamente el meme!</Toast.Body>
+            </Toast>
+            </div>
             <div className="d-flex justify-content-center m-3">
             <Form className="w-75" onSubmit={handleSubmit}>
                 <Row className="mb-3">
@@ -116,14 +147,14 @@ function UploadForm(props) {
                 <Row className="mb-3">
                 <Form.Group controlId="uploaded_file" className="mb-3 w-50">
                     <Form.Label>Meme</Form.Label>
-                    <Form.Control type="file" size="sm" name="uploaded_file" onChange={handleFileChange} />
+                    <Form.Control type="file" size="sm" name="uploaded_file" value={targetFile} onChange={handleFileChange} />
                 </Form.Group>
                     <Form.Group className="w-50" controlId="fromMemePreview">
                     <Image src={preview} style={{maxWidth: 275, maxHeight: 275 }} alt="preview del meme a subir"/>
                     </Form.Group>
                     </Row>
-                {mode == 'upload' && <Button variant="secondary" type="submit">
-                    Upload meme
+                {mode == 'upload' && <Button variant="secondary" type="submit" disabled={isLoading}>
+                    {isLoading ? 'Uploading…' : 'Upload'}
                 </Button>}
             </Form>
             </div>

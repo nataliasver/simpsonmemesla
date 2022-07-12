@@ -45,7 +45,7 @@ function Pages(props) {
 
     axiosJWT.interceptors.request.use((config) => {
         const currentDate = new Date();
-        if (expire * 1000 > currentDate.getTime()) return Promise.resolve(config)
+        if (expire * 1000 > currentDate.getTime()) return Promise.resolve(config);
         return axios.get('/api/users/token')
             .then(response => {
                 config.headers.Authorization = `Bearer ${response.data.accessToken}`;
@@ -53,6 +53,7 @@ function Pages(props) {
                 const decoded = jwt_decode(response.data.accessToken);
                 setName(decoded.name);
                 setExpire(decoded.exp);
+                console.log(config)
                 return config;
             })
             .catch(() => props.onLogoutError())
