@@ -1,23 +1,28 @@
 import logo from './margeAndHomer.webp';
-import './App.css';
+import Navbar from "react-bootstrap/Navbar";
+import Container from "react-bootstrap/Container";
+import HomePagePublic from "./components/HomePagePublic";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Holis manolis. Aca van a verse los memes de los simpsons(?)</p>
-        <a
-          className="App-link"
-          href="https://simpsonswiki.com/wiki/Main_Page"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Wiki de los simpson
-        </a>
-      </header>
-    </div>
-  );
+    return(
+        <>
+            <Navbar bg="dark" variant="dark">
+                <Container>
+                    <Navbar.Brand href="/">
+                        <img
+                            alt=""
+                            src={logo}
+                            width="40"
+                            height="40"
+                            className="d-inline-block align-top"
+                        />{' '}
+                        Simpson Memes La
+                    </Navbar.Brand>
+                </Container>
+            </Navbar>
+            <HomePagePublic/>
+        </>
+    );
 }
 
 export default App;
