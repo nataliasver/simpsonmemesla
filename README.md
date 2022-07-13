@@ -1,5 +1,5 @@
-#REST API - Simpson Memes LA
-###Base url
+# REST API - Simpson Memes LA 
+### Base url
 https://simpsonmemesla.herokuapp.com/api/memes
 
 ### GET `/memes`
@@ -36,9 +36,9 @@ Se pasa por query string un ID de un meme(meme_id en el schema) para eliminarlo 
 ### POST `/upload/meme`
 *Se requiere 'Bearer token'* (*required*)\
 Se agrega File como FILE en el request. (*required*) \
-Se envia por Body lo siguiente (*required*)
+Se envia por Body(FormData) lo siguiente (*required*)
 
-```json
+```fromData
 {
   "title": String, *required*
   "season": Number, *required*
@@ -47,13 +47,16 @@ Se envia por Body lo siguiente (*required*)
   "characters": String (Valores separados por coma) *required*
 }
 ```
+Ejemplo de formData por postman
+![image](https://user-images.githubusercontent.com/8728259/178849943-16815eca-a44a-43aa-9806-afbc6311ce8b.png)
+
 
 ### PUT `/update/meme`
 *Se requiere 'Bearer token'* (*required*)\
 Se agrega File como FILE en el request. (*not neccesary required*) \
-Se envia por Body lo siguiente (*required*)
+Se envia por Body(FormData) lo siguiente (*required*)
 
-```json
+```fromData
 {
   "meme_id": String *required*
   "title": String, *required*
