@@ -1,70 +1,88 @@
-# Getting Started with Create React App
+#REST API - Simpson Memes LA
+###Base url
+https://simpsonmemesla.herokuapp.com/api/memes
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### GET `/memes`
+Devuelve un array de json con todos los memes
 
-## Available Scripts
+### GET `/id?value=meme_id`
 
-In the project directory, you can run:
+Se pasa por query string un meme_id o un meme_id parcial (busca por regex)\
+Ejemplo: se pasa el qs: 12, buscara todos los meme_id que contengan el numero 12
+
+### GET `/title?value=title`
+
+Se pasa por query string un title o un title parcial (busca por regex)
+
+### GET `/season?value=season`
+
+Se pasa por query string uns temporada o una temporada parcial (busca por regex)
+
+### GET `/episode?value=episode`
+
+Se pasa por query string un episodio o un title parcial (busca por regex)
+
+### GET `/character?value=character`
+
+Se pasa por query string un nombre de un personaje o un nombre parcial (busca por regex)
+Ejemplo: se pasa Ned `/character?value=Ned` 
+buscara todos en todos los memes que
+tengan el personaje Ned, el cual podria estar ingresado como Ned Flanders en la base
+
+### DELETE `/id?value=meme_id`
+
+Se pasa por query string un ID de un meme(meme_id en el schema) para eliminarlo de la base
+
+### POST `/upload/meme`
+*Se requiere 'Bearer token'* (*required*)\
+Se agrega File como FILE en el request. (*required*) \
+Se envia por Body lo siguiente (*required*)
+
+```json
+{
+  "title": String, *required*
+  "season": Number, *required*
+  "episode": Number, *required*
+  "description": String, *required*
+  "characters": String (Valores separados por coma) *required*
+}
+```
+
+### PUT `/update/meme`
+*Se requiere 'Bearer token'* (*required*)\
+Se agrega File como FILE en el request. (*not neccesary required*) \
+Se envia por Body lo siguiente (*required*)
+
+```json
+{
+  "meme_id": String *required*
+  "title": String, *required*
+  "season": Number, *required*
+  "episode": Number, *required*
+  "description": String, *required*
+  "characters": String, (Valores separados por coma) *required*
+  "meme_img_url": String (se requiere si no se envia el file)        
+}
+```
+
+##Run en Modo Local
+### `npm install`
+Instalar los paquetes de npm
+
+
+### `npm server`
+Corre el server de la api. \
+Para hacer los request desde React,
+esta configurado un proxy en el package.json, con lo cual se pueden hacer directos. \
+Ejemplo: axios.get('/api/memes/memes')\
+ira a buscar la info al server en el puerto 4000 sin necesidad de escribirlo explicitamente
+[http://localhost:4000](http://localhost:4000)
 
 ### `npm start`
+Corre el server de React - UI \
+[http://localhost:3000](http://localhost:3000) para verlo en el navegador
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
