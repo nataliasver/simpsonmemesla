@@ -29,6 +29,7 @@ class MemesService {
                 memeFind.title = meme.title
                 memeFind.season = meme.season
                 memeFind.episode = meme.episode
+                memeFind.description = meme.description
                 memeFind.characters = meme.characters
                 return memeFind.save()
             })
