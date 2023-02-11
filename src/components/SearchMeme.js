@@ -9,7 +9,7 @@ import FormGroup from "react-bootstrap/FormGroup";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row"
 import Alert from "react-bootstrap/Alert";
-
+const apiUrl = process.env.REACT_APP_API_URL;
 function SearchMeme(props) {
 
     const [typeOfSearch, setTypeOfSearch] = useState(props.defaultSearch)
@@ -27,7 +27,7 @@ function SearchMeme(props) {
         }
         evt.preventDefault()
         console.log("pasa pro aca")
-        axios.get(`/api/memes/${typeOfSearch}`, {params: {value: toSearch}})
+        axios.get(apiUrl+`/memes/${typeOfSearch}`, {params: {value: toSearch}})
             .then(response => {
                 _.isEmpty(response.data)? setNoMemes(true) : setNoMemes(false);
                 props.onMemesReceive(response.data)

@@ -3,12 +3,12 @@ import SearchMeme from "./SearchMeme";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import ListAllMemes from "./ListAllMemes";
-
+const apiUrl = process.env.REACT_APP_API_URL;
 function HomePagePublic(props) {
     const [memes, setMemes] = useState(null)
 
     useEffect(() =>{
-        axios.get("/api/memes/memes")
+        axios.get(apiUrl+"/memes/memes")
             .catch(e => console.log("Fallo la carga de memes ",e))
             .then(res => {
                 setMemes(res.data)

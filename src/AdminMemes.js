@@ -8,12 +8,14 @@ import {useEffect} from "react";
 import Button from "react-bootstrap/Button";
 import axios from 'axios';
 
+const apiUrl = process.env.API_URL;
+
 function AdminMemes() {
     const [pageNavbar, setPageNavbar] = useState("");
     const [isLogin, setIsLogin] = useState(false)
 
     function logout(){
-        axios.delete('/api/users/logout')
+        axios.delete(apiUrl+'/api/users/logout')
             .then(() => {
                 setPageNavbar("login");
                 setIsLogin(false);

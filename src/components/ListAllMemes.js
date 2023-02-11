@@ -11,6 +11,7 @@ import Row from "react-bootstrap/Row";
 import _ from "lodash";
 import Toast from "react-bootstrap/Toast";
 
+const apiUrl = process.env.API_URL;
 function ListAllMemes(props) {
     const memes = props.memes
 

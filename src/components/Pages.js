@@ -7,7 +7,7 @@ import Login from "./Login";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
-
+const apiUrl = process.env.REACT_APP_API_URL;
 function Pages(props) {
     const [page, setPage] = useState("");
     const [memes, setMemes] = useState([])
@@ -26,7 +26,7 @@ function Pages(props) {
     }, [])
 
     const refreshToken = () => {
-        axios.get('/api/users/token')
+        axios.get(apiUrl+'/users/token')
             .then(response => {
                 setToken(response.data.accessToken);
                 const decoded = jwt_decode(response.data.accessToken);
@@ -46,7 +46,7 @@ function Pages(props) {
     axiosJWT.interceptors.request.use((config) => {
         const currentDate = new Date();
         if (expire * 1000 > currentDate.getTime()) return Promise.resolve(config);
-        return axios.get('/api/users/token')
+        return axios.get(apiUrl+'/users/token')
             .then(response => {
                 config.headers.Authorization = `Bearer ${response.data.accessToken}`;
                 setToken(response.data.accessToken);

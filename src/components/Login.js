@@ -7,6 +7,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 function Login(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,7 +16,7 @@ function Login(props) {
 
     function handleLogin(e) {
         e.preventDefault();
-        axios.post('/api/users/login', {
+        axios.post(apiUrl+'/users/login', {
             email: email,
             password: password
         })

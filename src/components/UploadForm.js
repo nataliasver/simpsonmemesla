@@ -10,6 +10,8 @@ import Row from 'react-bootstrap/Row';
 import Image from 'react-bootstrap/Image'
 import Toast from "react-bootstrap/Toast";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 function UploadForm(props) {
     const [file, setFile]= useState(null);
     const [preview, setPreview] = useState("no_image.jpg");
@@ -68,7 +70,7 @@ function UploadForm(props) {
             "Content-Type": "multipart/form-data",
             "Authorization": `Bearer ${props.token}`
         }
-        return props.axiosJWT.post("/api/memes/upload/meme", formData, { headers })
+        return props.axiosJWT.post(apiUrl+"/memes/upload/meme", formData, { headers })
             .then(() => setShow(true))
             .then(() => {
                 setValues({
